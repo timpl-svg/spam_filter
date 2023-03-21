@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Results</title>
+</head>
+<body>
+    <a href="/">Back</a>
+    {% for el in comments %}
+        <p>{{el.text}}</p><br>
+    {% endfor %}
+
+</body>
+</html>
