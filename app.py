@@ -18,7 +18,6 @@ class Comment(db.Model):
 def index():
     if request.method == 'POST':
         text = request.form['text']
-        # TODO: split this text with \n as delimiter
         comments = text.split('\n')
 
         try:
@@ -35,7 +34,11 @@ def index():
 @app.route('/result')
 def result():
     comments = Comment.query.all()
-    return render_template('result.html', comments=comments)
+    # TODO: Implement ml model
+    # comments -- predict set
+    # remake comments list to list of tuples (comment, spam: bool)
+    return render_template('index.html', comments=comments)
+
 
 @app.route('/delete')
 def delete():
