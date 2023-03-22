@@ -19,17 +19,17 @@ def index():
     if request.method == 'POST':
         text = request.form['text']
         # TODO: split this text with \n as delimiter
-        comment = Comment(text=text)
+        comments = text.split('\n')
 
         try:
-            db.session.add(comment)
+            for comment in comments:
+                db.session.add(Comment(text=comment))
             db.session.commit()
             return redirect('/result')
         except:
             return 'Error'
-
     else:
-        return render_template('index.html')
+        return render_template("index.html")
 
 
 @app.route('/result')
@@ -37,8 +37,18 @@ def result():
     comments = Comment.query.all()
     return render_template('result.html', comments=comments)
 
+@app.route('/delete')
+def delete():
+    comments = Comment.query.all()
+    try:
+        for comment in comments:
+            db.session.delete(comment)
+        db.session.commit()
+        return redirect('/')
+    except:
+        db.session.rollback()
+        return "error"
 
-# TODO: delete all the records in the table
 
 if __name__ == '__main__':
     app.run(debug=True)
