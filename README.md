@@ -1,4 +1,4 @@
-Pet project
+Pet project "Spam filter"
 
 Technologies:
   - flask, html, css for web
