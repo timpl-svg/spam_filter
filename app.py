@@ -18,26 +18,22 @@ class Comment(db.Model):
 def index():
     if request.method == 'POST':
         text = request.form['text']
-        comments = text.split('\n')
+        input_comments = text.split('\n')
 
         try:
-            for comment in comments:
+            for comment in input_comments:
                 db.session.add(Comment(text=comment))
             db.session.commit()
-            return redirect('/result')
+            comments = Comment.query.all()
+            result = []
+            # TODO: Implement ml model
+            # comments -- predict set
+            # make a result list of tuples (comment, spam: bool)
+            return render_template('index.html', comments=comments)
         except:
             return 'Error'
     else:
         return render_template("index.html")
-
-
-@app.route('/result')
-def result():
-    comments = Comment.query.all()
-    # TODO: Implement ml model
-    # comments -- predict set
-    # remake comments list to list of tuples (comment, spam: bool)
-    return render_template('index.html', comments=comments)
 
 
 @app.route('/delete')
