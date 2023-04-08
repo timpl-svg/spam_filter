@@ -15,8 +15,13 @@
         <input type="submit" value="Check">
     </form>
     <a class="texts" href="/delete">Delete all records</a>
-    {% for el in comments %}
-        <p class="texts">{{el.text}}</p><br>
+    {% for res in result %}
+        {% if res[1] == 1 %}
+            <p class="texts" style="color: red">{{res[0]}}</p><br>
+        {% else %}
+            <p class="texts">{{res[0]}}</p><br>
+        {% endif %}
+
     {% endfor %}
 </body>
 </html>

@@ -1,7 +1,10 @@
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
+import numpy as np
+import pickle
 
 app = Flask(__name__)
+model = pickle.load(open("model.pkl", "rb"))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///spam.db'
 db = SQLAlchemy(app)
 
@@ -25,11 +28,16 @@ def index():
                 db.session.add(Comment(text=comment))
             db.session.commit()
             comments = Comment.query.all()
+            comments = [comment.text for comment in comments]
+            comments = np.array(comments)
+            predict = model.predict(comments)
             result = []
+            for i in range(len(comments)):
+                result.append((comments[i], predict[i]))
             # TODO: Implement ml model
             # comments -- predict set
             # make a result list of tuples (comment, spam: bool)
-            return render_template('index.html', comments=comments)
+            return render_template('index.html', result=result)
         except:
             return 'Error'
     else:
@@ -46,7 +54,7 @@ def delete():
         return redirect('/')
     except:
         db.session.rollback()
-        return "error"
+        return "Error"
 
 
 if __name__ == '__main__':
