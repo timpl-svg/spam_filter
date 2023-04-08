@@ -34,9 +34,6 @@ def index():
             result = []
             for i in range(len(comments)):
                 result.append((comments[i], predict[i]))
-            # TODO: Implement ml model
-            # comments -- predict set
-            # make a result list of tuples (comment, spam: bool)
             return render_template('index.html', result=result)
         except:
             return 'Error'
