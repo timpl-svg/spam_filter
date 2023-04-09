@@ -77,8 +77,8 @@ class NaiveBayesSpamFilter:
         pr_sw = []
         dict_spamicity = self.compute_spamicity()
         dict_hamicity = self.compute_hamicity()
-        prob_spam = 0.5
-        prob_ham = 0.5
+        prob_spam = len(self.train_spam) / (len(self.train_spam) + len(self.train_ham))
+        prob_ham = len(self.train_ham) / (len(self.train_ham) + len(self.train_spam))
         for message in reduced_sentences:
             pr_sw.append([])
         
